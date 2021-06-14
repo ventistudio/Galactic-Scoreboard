@@ -13,16 +13,20 @@ function component:ScoreboardShow()
 	if not self.screen then
 		self:InitScoreboard()
 	end
-	self.screen:SetVisible(true)
-	return true
+	if self.StatsFromDerived then
+		self.screen:SetVisible(true)
+		return true
+	end
 end
 
 function component:ScoreboardHide()
 	if not self.screen then
 		self:InitScoreboard()
 	end
-	self.screen:SetVisible(false)
-	return true
+	if self.StatsFromDerived then
+		self.screen:SetVisible(false)
+		return true
+	end
 end
 
 function component:ComponentInitialized(comp)
