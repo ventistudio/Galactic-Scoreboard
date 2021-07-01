@@ -246,8 +246,10 @@ function component:InitScoreboard()
 
 	self.screen.scoreboard.left.stats.roles = self.screen.scoreboard.left.stats:Add("Panel")
 	self.screen.scoreboard.left.stats.roles:Dock(TOP)
+	self.screen.scoreboard.left.stats.roles:SetHeight(16*2.5*2)
 	self.screen.scoreboard.left.stats.roles.Paint = function(pnl, w, h)
 		pnl:DockMargin(galactic.theme.rem, 0, 0, 0)
+		pnl:SetHeight(16)
 	end
 
 	self.screen.scoreboard.left.stats.roles.render = self:GetRoleList(self.screen.scoreboard.left.stats.roles, function() return self:GetSelectedPlayer() end)
