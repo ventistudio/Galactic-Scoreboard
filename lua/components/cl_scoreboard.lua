@@ -506,36 +506,39 @@ function component:GetRoleList(pnl, ply)
 		surface.SetFont("GalacticSubBold")
 		local posX, posY = 0, 0
 
+		local roles = {}
+
 		if galactic and galactic.roleManager then
 			for _, role in ipairs(ply():Roles()) do
 				if not role.title then break end
-				local txtW, txtH = surface.GetTextSize(role.title:upper())
-				if posX + txtW + galactic.theme.rem / 2 > pnl:GetWide() then
-					posX = 0
-					posY = posY + galactic.theme.rem + galactic.theme.rem / 4
+				table.insert(roles, {title = role.title, color = role.color})
+			end
+		elseif ulx then
+			for _, team in ipairs(ulx.teams) do
+				for _, group in ipairs(team.groups) do
+					if group == ply():GetUserGroup() then
+						table.insert(roles, {title = team.name, color = team.color or galactic.theme.colors.red})
+					end
 				end
-				draw.RoundedBox(galactic.theme.round, posX, posY, txtW + galactic.theme.rem / 2, galactic.theme.rem, role.color)
-
-				local txtColor = Color(255, 255, 255)
-				if (role.color.r + role.color.g + role.color.b) / 3 > 155 then
-					txtColor = Color(0, 0, 0)
-				end
-				draw.SimpleText(role.title:upper(), "GalacticSubBold", posX + galactic.theme.rem / 4, posY + galactic.theme.rem / 2, txtColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-				posX = posX + txtW + galactic.theme.rem / 2 + galactic.theme.rem / 4
 			end
 		else
-			local txtW, txtH = surface.GetTextSize(team.GetName(ply():Team()):upper())
+			table.insert(roles, {title = team.GetName(ply():Team()), color = team.GetColor(ply():Team())})
+		end
+
+		for _, role in ipairs(roles) do
+			if not role.title then break end
+			local txtW, txtH = surface.GetTextSize(role.title:upper())
 			if posX + txtW + galactic.theme.rem / 2 > pnl:GetWide() then
 				posX = 0
 				posY = posY + galactic.theme.rem + galactic.theme.rem / 4
 			end
-			draw.RoundedBox(galactic.theme.round, posX, posY, txtW + galactic.theme.rem / 2, galactic.theme.rem, team.GetColor(ply():Team()))
+			draw.RoundedBox(galactic.theme.round, posX, posY, txtW + galactic.theme.rem / 2, galactic.theme.rem, role.color)
 
 			local txtColor = Color(255, 255, 255)
-			if (team.GetColor(ply():Team()).r + team.GetColor(ply():Team()).g + team.GetColor(ply():Team()).b) / 3 > 155 then
+			if (role.color.r + role.color.g + role.color.b) / 3 > 155 then
 				txtColor = Color(0, 0, 0)
 			end
-			draw.SimpleText(team.GetName(ply():Team()):upper(), "GalacticSubBold", posX + galactic.theme.rem / 4, posY + galactic.theme.rem / 2, txtColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+			draw.SimpleText(role.title:upper(), "GalacticSubBold", posX + galactic.theme.rem / 4, posY + galactic.theme.rem / 2, txtColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 			posX = posX + txtW + galactic.theme.rem / 2 + galactic.theme.rem / 4
 		end
 

@@ -86,17 +86,19 @@ function component:StatsFromDerived(ply)
 				return string.NiceTime(self.PlayTime)
 			end
 		})
-	elseif ulx and ply():GetNWInt( "TotalUTime", -1 ) ~= -1 then
+	/*elseif ulx then
 		table.insert(stats, 
 		{
 			stat = "Playtime",
 			important = true,
 			func = function()
-				if not ply():IsValid() then return "None" end
-				self.PlayTime = math.floor((ply():GetUTime() + CurTime() - ply():GetUTimeStart()))
+				local pl = ply()
+				print(pl, pl:GetNWInt( "TotalUTime", -1 ))
+				if not pl:IsValid() then return "None" end
+				self.PlayTime = math.floor((pl:GetUTime() + CurTime() - pl:GetUTimeStart()))
 				return string.NiceTime(self.PlayTime)
 			end
-		})
+		})*/
 	end
 
 	/*table.insert(stats, 
