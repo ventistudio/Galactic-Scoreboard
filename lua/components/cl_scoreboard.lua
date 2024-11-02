@@ -134,7 +134,10 @@ function component:InitScoreboard()
 			end
 		end
 		pnl.idleRotation = math.cos(RealTime() / 2) * 22.5
-		local headPos = pnl.Entity:GetBonePosition(pnl.Entity:LookupBone("ValveBiped.Bip01_Head1") or pnl.Entity:LookupBone("ValveBiped.Bip01_Spine"))
+		local headPos = Vector(0, 0, 0)
+		if !!(pnl.Entity:LookupBone("ValveBiped.Bip01_Head1") or pnl.Entity:LookupBone("ValveBiped.Bip01_Spine")) then
+			headPos = pnl.Entity:GetBonePosition(pnl.Entity:LookupBone("ValveBiped.Bip01_Head1") or pnl.Entity:LookupBone("ValveBiped.Bip01_Spine"))
+		end
 		if not pnl.Entity:LookupBone("ValveBiped.Bip01_Head1") then
 			headPos.z = headPos.z + 20
 		end
